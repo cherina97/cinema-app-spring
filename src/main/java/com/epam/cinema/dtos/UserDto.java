@@ -1,5 +1,6 @@
 package com.epam.cinema.dtos;
 
+import com.epam.cinema.constraints.EqualFields;
 import com.epam.cinema.validation.AdvanceInfo;
 import com.epam.cinema.validation.BasicInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -9,6 +10,7 @@ import javax.validation.constraints.*;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@EqualFields(baseField = "password", matchField = "repeatPassword")
 public class UserDto {
 
     @NotNull(groups = AdvanceInfo.class)
