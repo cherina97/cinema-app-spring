@@ -13,22 +13,22 @@ import javax.validation.constraints.*;
 @EqualFields(baseField = "password", matchField = "repeatPassword")
 public class UserDto {
 
-    @NotNull(groups = AdvanceInfo.class)
-    @Positive(groups = AdvanceInfo.class)
+    @NotNull(message = "{id.notnull}", groups = AdvanceInfo.class)
+    @Positive(message = "{id.positive}", groups = AdvanceInfo.class)
     private int id;
 
-    @NotBlank(groups = BasicInfo.class)
+    @NotBlank(message = "{firstName.notblank}", groups = BasicInfo.class)
     private String firstName;
 
-    @NotBlank(groups = BasicInfo.class)
+    @NotBlank(message = "{lastName.notblank}", groups = BasicInfo.class)
     private String lastName;
 
     @NotNull(groups = {BasicInfo.class, AdvanceInfo.class})
-    @Email(groups = AdvanceInfo.class)
+    @Email(message = "{email.email}", groups = AdvanceInfo.class)
     private String email;
 
     @NotNull(groups = BasicInfo.class)
-    @Size(min = 4, message = "Psw should`t be less than 4", groups = BasicInfo.class)
+    @Size(min = 4, message = "{password.size}", groups = BasicInfo.class)
     private String password;
 
     @NotNull(groups = BasicInfo.class)
