@@ -4,6 +4,7 @@ import com.epam.cinema.dtos.UserDto;
 
 public interface UserService {
 
+
     UserDto getUser(String email);
 
     UserDto createUser(UserDto userDto);

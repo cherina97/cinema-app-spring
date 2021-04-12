@@ -1,4 +1,4 @@
-package com.epam.cinema;
+package com.epam.cinema.config;
 
 import com.epam.cinema.interceptor.LoggerInterceptor;
 import org.springframework.context.MessageSource;

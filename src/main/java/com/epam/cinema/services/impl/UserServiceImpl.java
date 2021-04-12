@@ -1,6 +1,6 @@
 package com.epam.cinema.services.impl;
 
-import com.epam.cinema.mappers.MapperUserToDto;
+import com.epam.cinema.mappers.MapperUser;
 import com.epam.cinema.dtos.UserDto;
 import com.epam.cinema.models.User;
 import com.epam.cinema.repos.UserRepository;
@@ -10,28 +10,28 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements MapperUserToDto, UserService {
+public class UserServiceImpl implements MapperUser, UserService {
 
     private final UserRepository userRepository;
 
     @Override
     public UserDto getUser(String email) {
         User user = userRepository.getUser(email);
-        return MapperUserToDto.INSTANCE.fromUserToUserDto(user);
+        return MapperUser.INSTANCE.fromUserToUserDto(user);
     }
 
     @Override
     public UserDto createUser(UserDto userDto) {
-        User user = MapperUserToDto.INSTANCE.fromUserDtoToUser(userDto);
+        User user = MapperUser.INSTANCE.fromUserDtoToUser(userDto);
         user = userRepository.createUser(user);
-        return MapperUserToDto.INSTANCE.fromUserToUserDto(user);
+        return MapperUser.INSTANCE.fromUserToUserDto(user);
     }
 
     @Override
     public UserDto updateUser(UserDto userDto, String email) {
-        User user = MapperUserToDto.INSTANCE.fromUserDtoToUser(userDto);
+        User user = MapperUser.INSTANCE.fromUserDtoToUser(userDto);
         user = userRepository.updateUser(user, email);
-        return MapperUserToDto.INSTANCE.fromUserToUserDto(user);
+        return MapperUser.INSTANCE.fromUserToUserDto(user);
     }
 
     @Override
