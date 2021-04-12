@@ -61,6 +61,14 @@
 			<version>1.4.2.Final</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>5.3.5</version>
+		</dependency>
+
+
 
 	</dependencies>
 

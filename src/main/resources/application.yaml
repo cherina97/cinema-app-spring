@@ -7,3 +7,9 @@ management:
   endpoint:
     health:
       show-details: always
+
+info:
+  app:
+    name: "Cinema Spring Boot App"
+    description: "The Cinema system is an Internet showcase of a cinema with one hall."
+    version: 2.0.0
