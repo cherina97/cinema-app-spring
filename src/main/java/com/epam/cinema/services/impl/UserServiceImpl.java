@@ -44,18 +44,13 @@ public class UserServiceImpl implements MapperUserToDto, UserService {
         if (user == null) {
             return null;
         }
-        return new UserDto(user.getId(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                user.getRoleId());
-//        return UserDto.builder()
-//                .id(user.getId())
-//                .firstName(user.getFirstName())
-//                .lastName(user.getLastName())
-//                .email(user.getEmail())
-//                .roleId(user.getRoleId())
-//                .build();
+        return new UserDto.Builder()
+                .withId(user.getId())
+                .withFirstName(user.getFirstName())
+                .withLastName(user.getLastName())
+                .withEmail(user.getEmail())
+                .withRoleId(user.getRoleId())
+                .build();
     }
 
     @Override
@@ -63,12 +58,13 @@ public class UserServiceImpl implements MapperUserToDto, UserService {
         if (userDto == null) {
             return null;
         }
-
-        return new User(userDto.getId(),
-                userDto.getFirstName(),
-                userDto.getLastName(),
-                userDto.getEmail(),
-                userDto.getPassword(),
-                userDto.getRoleId());
+        return new User.Builder()
+                .withId(userDto.getId())
+                .withFirstName(userDto.getFirstName())
+                .withLastName(userDto.getLastName())
+                .withEmail(userDto.getEmail())
+                .withPassword(userDto.getPassword())
+                .withRoleId(userDto.getRoleId())
+                .build();
     }
 }

@@ -37,11 +37,58 @@ public class UserDto {
     @NotNull(groups = AdvanceInfo.class)
     private int roleId;
 
-    public UserDto(int id, String firstName, String lastName, String email, int roleId) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.roleId = roleId;
+//    public UserDto(int id, String firstName, String lastName, String email, int roleId) {
+//        this.id = id;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.email = email;
+//        this.roleId = roleId;
+//    }
+
+    public static class Builder{
+        private final UserDto userDto;
+
+        public Builder() {
+            userDto = new UserDto();
+        }
+
+        public UserDto.Builder withId(int id){
+            userDto.id = id;
+            return this;
+        }
+
+        public UserDto.Builder withFirstName(String firstName){
+            userDto.firstName = firstName;
+            return this;
+        }
+
+        public UserDto.Builder withLastName(String lastName){
+            userDto.lastName = lastName;
+            return this;
+        }
+
+        public UserDto.Builder withEmail(String email){
+            userDto.email = email;
+            return this;
+        }
+
+        public UserDto.Builder withPassword(String password){
+            userDto.password = password;
+            return this;
+        }
+
+        public UserDto.Builder withRepeatPassword(String repeatPassword){
+            userDto.repeatPassword = repeatPassword;
+            return this;
+        }
+
+        public UserDto.Builder withRoleId(int roleId){
+            userDto.roleId = roleId;
+            return this;
+        }
+
+        public UserDto build(){
+            return userDto;
+        }
     }
 }
