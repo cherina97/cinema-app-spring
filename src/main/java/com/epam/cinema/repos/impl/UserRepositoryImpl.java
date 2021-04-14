@@ -1,12 +1,12 @@
 package com.epam.cinema.repos.impl;
 
+import com.epam.cinema.exceptions.UserNotFoundException;
 import com.epam.cinema.models.User;
 import com.epam.cinema.repos.UserRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Component
 public class UserRepositoryImpl implements UserRepository {
@@ -18,7 +18,7 @@ public class UserRepositoryImpl implements UserRepository {
         return users.stream()
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst()
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(UserNotFoundException::new);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class UserRepositoryImpl implements UserRepository {
         if (userRemoved){
             users.add(user);
         } else {
-            throw new NoSuchElementException("No such user");
+            throw new UserNotFoundException("Can`t update! User is not found!");
         }
         return user;
     }

@@ -1,12 +1,12 @@
 package com.epam.cinema.repos.impl;
 
+import com.epam.cinema.exceptions.FilmNotFoundException;
 import com.epam.cinema.models.Film;
 import com.epam.cinema.repos.FilmRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Component
 public class FilmRepositoryImpl implements FilmRepository {
@@ -18,7 +18,7 @@ public class FilmRepositoryImpl implements FilmRepository {
         return films.stream()
                 .filter(film -> film.getFilmTitle().equals(filmTitle))
                 .findFirst()
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(FilmNotFoundException::new);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class FilmRepositoryImpl implements FilmRepository {
         if (filmRemoved){
             films.add(film);
         } else {
-            throw new NoSuchElementException("No such film");
+            throw new FilmNotFoundException("No such film");
         }
         return film;
     }
