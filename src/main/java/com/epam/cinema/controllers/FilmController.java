@@ -1,5 +1,7 @@
 package com.epam.cinema.controllers;
 
+import com.epam.cinema.controllers.assemblers.FilmAssembler;
+import com.epam.cinema.controllers.models.FilmModel;
 import com.epam.cinema.dtos.FilmDto;
 import com.epam.cinema.services.FilmService;
 import lombok.RequiredArgsConstructor;
@@ -17,26 +19,30 @@ import javax.validation.Valid;
 @Slf4j
 public class FilmController {
     private final FilmService filmService;
+    private final FilmAssembler filmAssembler;
 
     @GetMapping(value = "/{title}")
     @ResponseStatus(HttpStatus.OK)
-    public FilmDto getFilm(@PathVariable String title) {
-        return filmService.getFilm(title);
+    public FilmModel getFilm(@PathVariable String title) {
+        FilmDto film = filmService.getFilm(title);
+        return filmAssembler.toModel(film);
     }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public FilmDto createFilm(@Valid @RequestBody FilmDto filmDto) {
+    public FilmModel createFilm(@Valid @RequestBody FilmDto filmDto) {
         log.info("Create film: {}", filmDto);
-        return filmService.createFilm(filmDto);
+        FilmDto film = filmService.createFilm(filmDto);
+        return filmAssembler.toModel(film);
     }
 
     @PutMapping(value = "/{title}")
     @ResponseStatus(HttpStatus.OK)
-    public FilmDto updateFilm(@Valid @RequestBody FilmDto filmDto,
+    public FilmModel updateFilm(@Valid @RequestBody FilmDto filmDto,
                               @PathVariable String title) {
         log.info("Update film: {} to film {}", title, filmDto);
-        return filmService.updateFilm(filmDto, title);
+        FilmDto film = filmService.updateFilm(filmDto, title);
+        return filmAssembler.toModel(film);
     }
 
     @DeleteMapping(value = "/{title}")

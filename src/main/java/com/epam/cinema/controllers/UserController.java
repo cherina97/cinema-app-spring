@@ -1,5 +1,7 @@
 package com.epam.cinema.controllers;
 
+import com.epam.cinema.controllers.assemblers.UserAssembler;
+import com.epam.cinema.controllers.models.UserModel;
 import com.epam.cinema.dtos.UserDto;
 import com.epam.cinema.services.UserService;
 import com.epam.cinema.validation.AdvanceInfo;
@@ -21,26 +23,30 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserService userService;
+    private final UserAssembler userAssembler;
 
     @GetMapping(value = "/{email}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDto getUser(@PathVariable String email) {
-        return userService.getUser(email);
+    public UserModel getUser(@PathVariable String email) {
+        UserDto user = userService.getUser(email);
+        return userAssembler.toModel(user);
     }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDto createUser(@Valid @RequestBody UserDto userDto) {
+    public UserModel createUser(@Valid @RequestBody UserDto userDto) {
         log.info("Create user: {}", userDto);
-        return userService.createUser(userDto);
+        UserDto user = userService.createUser(userDto);
+        return userAssembler.toModel(user);
     }
 
     @PutMapping(value = "/{email}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDto updateUser(@Valid @RequestBody UserDto userDto,
+    public UserModel updateUser(@Valid @RequestBody UserDto userDto,
                               @PathVariable String email) {
         log.info("Update user: {} to user {}", email, userDto);
-        return userService.updateUser(userDto, email);
+        UserDto user = userService.updateUser(userDto, email);
+        return userAssembler.toModel(user);
     }
 
     @DeleteMapping(value = "/{email}")
