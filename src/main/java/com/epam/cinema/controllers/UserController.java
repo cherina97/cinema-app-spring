@@ -1,50 +1,57 @@
 package com.epam.cinema.controllers;
 
+import com.epam.cinema.api.UserApi;
+import com.epam.cinema.controllers.assemblers.UserAssembler;
+import com.epam.cinema.controllers.models.UserModel;
 import com.epam.cinema.dtos.UserDto;
 import com.epam.cinema.services.UserService;
-import com.epam.cinema.validation.AdvanceInfo;
-import com.epam.cinema.validation.BasicInfo;
+import com.epam.cinema.validation.UserValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/users")
 @Slf4j
-@Validated({BasicInfo.class, AdvanceInfo.class})
-public class UserController {
+public class UserController implements UserApi {
 
     private final UserService userService;
+    private final UserAssembler userAssembler;
+    private final UserValidator userValidator;
 
-    @GetMapping(value = "/{email}")
-    @ResponseStatus(HttpStatus.OK)
-    public UserDto getUser(@PathVariable String email) {
-        return userService.getUser(email);
+    @InitBinder
+    private void initBinder(WebDataBinder binder){
+        binder.setValidator(userValidator);
     }
 
-    @PostMapping()
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserDto createUser(@Valid @RequestBody UserDto userDto) {
+    @Override
+    public UserModel getUser(String email) {
+        UserDto user = userService.getUser(email);
+        return userAssembler.toModel(user);
+    }
+
+    @Override
+    public UserModel createUser(@Valid UserDto userDto) {
         log.info("Create user: {}", userDto);
-        return userService.createUser(userDto);
+        UserDto user = userService.createUser(userDto);
+        return userAssembler.toModel(user);
     }
 
-    @PutMapping(value = "/{email}")
-    @ResponseStatus(HttpStatus.OK)
-    public UserDto updateUser(@Valid @RequestBody UserDto userDto,
-                              @PathVariable String email) {
+    @Override
+    public UserModel updateUser(@Valid UserDto userDto,
+                                String email) {
         log.info("Update user: {} to user {}", email, userDto);
-        return userService.updateUser(userDto, email);
+        UserDto user = userService.updateUser(userDto, email);
+        return userAssembler.toModel(user);
     }
 
-    @DeleteMapping(value = "/{email}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String email) {
+    @Override
+    public ResponseEntity<Void> deleteUser(String email) {
         log.info("Delete user by email: {}", email);
         userService.deleteUser(email);
         return ResponseEntity.noContent().build();
