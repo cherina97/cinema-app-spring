@@ -5,10 +5,15 @@ import com.epam.cinema.controllers.assemblers.UserAssembler;
 import com.epam.cinema.controllers.models.UserModel;
 import com.epam.cinema.dtos.UserDto;
 import com.epam.cinema.services.UserService;
+import com.epam.cinema.validation.UserValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -17,6 +22,12 @@ public class UserController implements UserApi {
 
     private final UserService userService;
     private final UserAssembler userAssembler;
+    private final UserValidator userValidator;
+
+    @InitBinder
+    private void initBinder(WebDataBinder binder){
+        binder.setValidator(userValidator);
+    }
 
     @Override
     public UserModel getUser(String email) {
@@ -25,14 +36,14 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public UserModel createUser(UserDto userDto) {
+    public UserModel createUser(@Valid UserDto userDto) {
         log.info("Create user: {}", userDto);
         UserDto user = userService.createUser(userDto);
         return userAssembler.toModel(user);
     }
 
     @Override
-    public UserModel updateUser(UserDto userDto,
+    public UserModel updateUser(@Valid UserDto userDto,
                                 String email) {
         log.info("Update user: {} to user {}", email, userDto);
         UserDto user = userService.updateUser(userDto, email);

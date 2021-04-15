@@ -11,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 @Api(tags = "User management API")
 @RequestMapping(value = "/api/v1/users")
 @Validated({BasicInfo.class, AdvanceInfo.class})
@@ -26,12 +24,12 @@ public interface UserApi {
     @ApiOperation("Creating user")
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    UserModel createUser(@Valid @RequestBody UserDto userDto);
+    UserModel createUser(@RequestBody UserDto userDto);
 
     @ApiOperation("Update user")
     @PutMapping(value = "/{email}")
     @ResponseStatus(HttpStatus.OK)
-    UserModel updateUser(@Valid @RequestBody UserDto userDto,
+    UserModel updateUser(@RequestBody UserDto userDto,
                          @PathVariable String email);
 
     @ApiOperation("Delete user from Database")
