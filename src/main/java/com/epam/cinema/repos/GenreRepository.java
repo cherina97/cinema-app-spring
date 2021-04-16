@@ -1,13 +1,13 @@
 package com.epam.cinema.repos;
 
 import com.epam.cinema.models.Genre;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface GenreRepository {
-    Genre getGenre(String genreName);
+import java.util.Optional;
 
-    Genre createGenre(Genre genre);
+@Repository
+public interface GenreRepository extends JpaRepository<Genre, Integer> {
 
-    Genre updateGenre(Genre genre, String genreName);
-
-    void deleteGenre(String genreName);
+    Optional<Genre> findByGenreName(String genreName);
 }

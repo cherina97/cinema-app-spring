@@ -18,11 +18,6 @@ public class UserValidator implements Validator {
     public void validate(Object o, Errors errors) {
         UserDto userDto = (UserDto) o;
 
-        int id = userDto.getId();
-        if (id <= 0){
-            errors.rejectValue("id", "id.notnull");
-        }
-
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "firstName.notblank");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "lastName.notblank");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "email.notblank");

@@ -10,6 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -43,5 +46,14 @@ public class FilmController implements FilmApi {
         log.info("Delete film by title: {}", title);
         filmService.deleteFilm(title);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public List<FilmModel> getAllFilms(){
+        log.info("Getting all films from DB");
+        return filmService.getAllFilms()
+                .stream()
+                .map(filmAssembler::toModel)
+                .collect(Collectors.toList());
     }
 }

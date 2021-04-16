@@ -22,19 +22,29 @@ public class UserAssembler extends RepresentationModelAssemblerSupport<UserDto, 
         Link getUser = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
                 .methodOn(UserController.class)
                 .getUser(entity.getEmail()))
-                .withRel("getUser");
+                .withRel("get");
 
         Link deleteUser = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
                 .methodOn(UserController.class)
                 .deleteUser(entity.getEmail()))
-                .withRel("deleteUser");
+                .withRel("delete");
 
         Link updateUser = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
                 .methodOn(UserController.class)
                 .updateUser(entity, entity.getEmail()))
-                .withRel("updateUser");
+                .withRel("update");
 
-        userModel.add(getUser, deleteUser, updateUser);
+        Link create = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
+                .methodOn(UserController.class)
+                .createUser(entity))
+                .withRel("create");
+
+        Link getAll = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
+                .methodOn(UserController.class)
+                .getAllUsers())
+                .withRel("getAll");
+
+        userModel.add(getUser, deleteUser, updateUser, create, getAll);
 
         return userModel;
     }

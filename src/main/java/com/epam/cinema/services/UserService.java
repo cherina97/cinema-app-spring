@@ -2,8 +2,9 @@ package com.epam.cinema.services;
 
 import com.epam.cinema.dtos.UserDto;
 
-public interface UserService {
+import java.util.List;
 
+public interface UserService {
 
     UserDto getUser(String email);
 
@@ -12,4 +13,6 @@ public interface UserService {
     UserDto updateUser(UserDto userDto, String email);
 
     void deleteUser(String email);
+
+    List<UserDto> getAllUsers();
 }

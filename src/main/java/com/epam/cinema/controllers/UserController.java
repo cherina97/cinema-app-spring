@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -55,6 +57,15 @@ public class UserController implements UserApi {
         log.info("Delete user by email: {}", email);
         userService.deleteUser(email);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public List<UserModel> getAllUsers(){
+        log.info("Getting all users from DB");
+        return userService.getAllUsers()
+                .stream()
+                .map(userAssembler::toModel)
+                .collect(Collectors.toList());
     }
 
 }
