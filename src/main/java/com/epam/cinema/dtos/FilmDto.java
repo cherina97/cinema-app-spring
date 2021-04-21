@@ -4,8 +4,6 @@ import com.epam.cinema.models.Genre;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.sql.Blob;
 import java.sql.Time;
 import java.util.List;
@@ -13,20 +11,13 @@ import java.util.List;
 @Data
 public class FilmDto {
 
-    @NotNull
-    @Positive
     private int id;
-
     @NotBlank
     private String filmTitle;
-
     @NotBlank
     private String description;
-
     private Time duration;
-
     private Blob poster;
-
     private List<Genre> genres;
 
     public static class Builder {

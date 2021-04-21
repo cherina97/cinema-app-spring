@@ -1,14 +1,13 @@
 package com.epam.cinema.repos;
 
 import com.epam.cinema.models.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository {
+import java.util.Optional;
 
-    User getUser(String email);
+@Repository
+public interface UserRepository extends JpaRepository<User, Integer> {
 
-    User createUser(User user);
-
-    User updateUser(User user, String email);
-
-    void deleteUser(String email);
+    Optional<User> findByEmail(String email);
 }

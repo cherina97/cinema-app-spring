@@ -22,18 +22,29 @@ public class FilmAssembler extends RepresentationModelAssemblerSupport<FilmDto, 
         Link getFilm = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
                 .methodOn(FilmController.class)
                 .getFilm(entity.getFilmTitle()))
-                .withRel("getFilm");
+                .withRel("get");
 
         Link updateFilm = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
                 .methodOn(FilmController.class)
                 .updateFilm(entity, entity.getFilmTitle()))
-                .withRel("updateFilm");
+                .withRel("update");
 
         Link deleteFilm = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
                 .methodOn(FilmController.class)
                 .deleteFilm(entity.getFilmTitle()))
-                .withRel("deleteFilm");
-        filmModel.add(getFilm, updateFilm, deleteFilm);
+                .withRel("delete");
+
+        Link create = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
+                .methodOn(FilmController.class)
+                .createFilm(entity))
+                .withRel("create");
+
+        Link getAll = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
+                .methodOn(FilmController.class)
+                .getAllFilms())
+                .withRel("getAll");
+
+        filmModel.add(getFilm, updateFilm, deleteFilm, create, getAll);
 
         return filmModel;
     }

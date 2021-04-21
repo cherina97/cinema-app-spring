@@ -1,14 +1,13 @@
 package com.epam.cinema.repos;
 
 import com.epam.cinema.models.Film;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface FilmRepository {
+import java.util.Optional;
 
-    Film getFilm(String filmTitle);
+@Repository
+public interface FilmRepository extends JpaRepository<Film, Integer> {
 
-    Film createFilm(Film film);
-
-    Film updateFilm(Film film, String filmTitle);
-
-    void deleteFilm(String filmTitle);
+    Optional<Film> findByFilmTitle (String filmTitle);
 }

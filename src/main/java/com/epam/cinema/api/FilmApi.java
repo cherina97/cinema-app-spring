@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Api(tags = "Film management API")
 @RequestMapping("/api/v1/films")
@@ -33,4 +34,9 @@ public interface FilmApi {
     @ApiOperation("Delete film from Database")
     @DeleteMapping(value = "/{title}")
     ResponseEntity<Void> deleteFilm(@PathVariable String title);
+
+    @ApiOperation("Getting all films from Database")
+    @GetMapping(value = "/all")
+    @ResponseStatus(HttpStatus.OK)
+    List<FilmModel> getAllFilms();
 }

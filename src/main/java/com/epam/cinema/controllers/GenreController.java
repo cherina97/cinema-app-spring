@@ -1,48 +1,60 @@
 package com.epam.cinema.controllers;
 
-import com.epam.cinema.models.Genre;
+import com.epam.cinema.api.GenreApi;
+import com.epam.cinema.controllers.assemblers.GenreAssembler;
+import com.epam.cinema.controllers.models.GenreModel;
+import com.epam.cinema.dtos.GenreDto;
 import com.epam.cinema.services.GenreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
-@RequestMapping("/genres")
 @Slf4j
-public class GenreController {
+public class GenreController implements GenreApi {
+
     private final GenreService genreService;
+    private final GenreAssembler genreAssembler;
 
-    @GetMapping(value = "/{genreName}")
-    @ResponseStatus(HttpStatus.OK)
-    public Genre getGenre(@PathVariable String genreName) {
-        return genreService.getGenre(genreName);
+    @Override
+    public GenreModel getGenre(String genreName) {
+        GenreDto genre = genreService.getGenre(genreName);
+        return genreAssembler.toModel(genre);
     }
 
-    @PostMapping()
-    @ResponseStatus(HttpStatus.CREATED)
-    public Genre createGenre(@Valid @RequestBody Genre genre) {
+    @Override
+    public GenreModel createGenre(GenreDto genre) {
         log.info("Create genre: {}", genre);
-        return genreService.createGenre(genre);
+        GenreDto genreDto = genreService.createGenre(genre);
+        return genreAssembler.toModel(genreDto);
     }
 
-    @PutMapping(value = "/{genreName}")
-    @ResponseStatus(HttpStatus.OK)
-    public Genre updateGenre(@Valid @RequestBody Genre genre,
-                           @PathVariable String genreName) {
+    @Override
+    public GenreModel updateGenre(GenreDto genre,
+                                  String genreName) {
         log.info("Update genre: {} to genre {}", genreName, genre);
-        return genreService.updateGenre(genre, genreName);
+        GenreDto genreDto = genreService.updateGenre(genre, genreName);
+        return genreAssembler.toModel(genreDto);
     }
 
-    @DeleteMapping(value = "/{genreName}")
-    public ResponseEntity<Void> deleteGenre(@PathVariable String genreName) {
+    @Override
+    public ResponseEntity<Void> deleteGenre(String genreName) {
         log.info("Delete genre by title: {}", genreName);
         genreService.deleteGenre(genreName);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public List<GenreModel> getAllGenres(){
+        log.info("Getting all genres from DB");
+        return genreService.getAllGenres()
+                .stream()
+                .map(genreAssembler::toModel)
+                .collect(Collectors.toList());
     }
 }
