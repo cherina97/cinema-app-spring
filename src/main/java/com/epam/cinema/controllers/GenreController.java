@@ -1,5 +1,6 @@
 package com.epam.cinema.controllers;
 
+import com.epam.cinema.api.GenreApi;
 import com.epam.cinema.controllers.assemblers.GenreAssembler;
 import com.epam.cinema.controllers.models.GenreModel;
 import com.epam.cinema.dtos.GenreDto;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-public class GenreController implements com.epam.cinema.api.GenreApi {
+public class GenreController implements GenreApi {
 
     private final GenreService genreService;
     private final GenreAssembler genreAssembler;

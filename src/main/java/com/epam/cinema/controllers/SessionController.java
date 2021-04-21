@@ -1,5 +1,6 @@
 package com.epam.cinema.controllers;
 
+import com.epam.cinema.api.SessionApi;
 import com.epam.cinema.controllers.assemblers.SessionAssembler;
 import com.epam.cinema.controllers.models.SessionModel;
 import com.epam.cinema.dtos.SessionDto;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-public class SessionController implements com.epam.cinema.api.SessionApi {
+public class SessionController implements SessionApi {
 
     private final SessionService sessionService;
     private final SessionAssembler sessionAssembler;
